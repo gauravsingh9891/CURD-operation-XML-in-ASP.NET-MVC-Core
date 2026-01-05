@@ -20,11 +20,11 @@
             <td>
                 <a asp-action="DisplayCustomer" asp-route-Custid="@customer.Custid">View</a> | 
                 <a asp-action="EditCustomer" asp-route-Custid="@customer.Custid">Edit</a> | 
-                <a asp-action="DeleteCustomer" asp-route-Custid="@customer.Custid" onclick="retrun confirm('Are you sure to delete the record?')">Delete</a>
+                <a asp-action="DeleteCustomer" asp-route-Custid="@customer.Custid" onclick="return confirm('Are you sure to delete the record?')">Delete</a>
             </td>
         </tr>
     }
     <tr>
-        <td colspan="6" align="center"><a asp-action="AddStudent">Add New Customer</a></td>
+        <td colspan="6" align="center"><a asp-action="AddCustomer">Add New Customer</a></td>
     </tr>
 </table>

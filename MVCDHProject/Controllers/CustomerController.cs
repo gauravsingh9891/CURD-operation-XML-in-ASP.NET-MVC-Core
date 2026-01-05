@@ -40,7 +40,6 @@ namespace MVCDHProject.Controllers
         {
             obj.Customer_Delete(Custid);
             return RedirectToAction("DisplayCustomers");
-        }
-        
+        }   
     }
 }
