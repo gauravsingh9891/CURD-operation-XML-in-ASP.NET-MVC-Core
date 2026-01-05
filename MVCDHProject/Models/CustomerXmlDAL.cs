@@ -1,7 +1,7 @@
 ﻿using System.Data;
 namespace MVCDHProject.Models
 {
-    public class CustomerXmlDAL
+    public class CustomerXmlDAL:ICustomerDAL
     {
         DataSet ds;
 
