@@ -7,12 +7,16 @@ namespace MVCDHProject.Controllers
         private readonly ICustomerDAL obj;
 
         //CustomerXmlDAL obj=new CustomerXmlDAL();
-        public CustomerController(ICustomerDAL obj)
+        public CustomerController(ICustomerDAL obj)     //Constructor Injection
         {
             this.obj = obj;
         }
         public ViewResult DisplayCustomers()
         {
+            //Manual Injection
+            //var services = HttpContext.RequestServices;
+            //var obj = (ICustomerDAL)services.GetService(typeof(ICustomerDAL));
+
             return View(obj.Customers_Select());
         }
         public ViewResult DisplayCustomer(int Custid)
