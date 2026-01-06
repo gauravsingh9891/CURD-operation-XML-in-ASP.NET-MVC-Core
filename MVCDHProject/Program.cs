@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MVCDHProject.Models;
 
 namespace MVCDHProject
@@ -12,7 +13,11 @@ namespace MVCDHProject
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             //Injector Code
-            builder.Services.AddScoped<ICustomerDAL, CustomerXmlDAL>();
+            //builder.Services.AddScoped<ICustomerDAL, CustomerXmlDAL>();
+            builder.Services.AddScoped<ICustomerDAL, CustomerSqlDAL>();
+
+            //Doing Dependency injection if we want to connect with sql we just need to change UseSqlServer to UseOracle and Connnection string key name
+            builder.Services.AddDbContext<MVCCoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConStr")));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
