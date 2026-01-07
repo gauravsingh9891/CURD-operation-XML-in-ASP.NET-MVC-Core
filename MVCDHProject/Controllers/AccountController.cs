@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MVCDHProject.Models;
 
 namespace MVCDHProject.Controllers
@@ -76,7 +77,10 @@ namespace MVCDHProject.Controllers
                 var result=await signInManager.PasswordSignInAsync(loginModel.Name,loginModel.Password,loginModel.RememberMe,false);
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (string.IsNullOrEmpty(loginModel.ReturnUrl))
+                        return RedirectToAction("Index","Home");
+                    else
+                        return LocalRedirect(loginModel.ReturnUrl);
                 }
                 else
                 {

@@ -4,6 +4,7 @@ namespace MVCDHProject.Models
 {
     public class LoginViewModel
     {
+
         [Required]
         public string? Name { get; set; }
 
@@ -13,5 +14,9 @@ namespace MVCDHProject.Models
 
         [Display(Name="Remember Me")]
         public bool RememberMe { get; set; }
+
+
+        //Value will be load through Route Parameter
+        public string ReturnUrl { get; set; } = "";  
     }
 }
