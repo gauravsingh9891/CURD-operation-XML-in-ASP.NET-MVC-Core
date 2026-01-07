@@ -6,14 +6,22 @@ namespace MVCDHProject.Controllers
 {
     public class AccountController : Controller
     {
+        #region Fields
+        //Fields
         private readonly UserManager<IdentityUser> userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        #endregion
 
+        #region Constructor
+        //Constructor
         public AccountController(UserManager<IdentityUser> userManager,SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
+        #endregion
+
+        #region Register
         [HttpGet]
         public ViewResult Register()
         {
@@ -51,7 +59,9 @@ namespace MVCDHProject.Controllers
             }
             return View(userModel);
         }
+        #endregion
 
+        #region Login
         [HttpGet]
         public ViewResult Login()
         {
@@ -75,5 +85,14 @@ namespace MVCDHProject.Controllers
             }
             return View(loginModel);
         }
+        #endregion
+
+        #region Logout
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
+        #endregion
     }
 }
