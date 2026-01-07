@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVCDHProject.Models;
 
@@ -18,6 +19,12 @@ namespace MVCDHProject
 
             //Doing Dependency injection if we want to connect with sql we just need to change UseSqlServer to UseOracle and Connnection string key name
             builder.Services.AddDbContext<MVCCoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConStr")));
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<MVCCoreDbContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -37,7 +44,7 @@ namespace MVCDHProject
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             //app.MapStaticAssets();

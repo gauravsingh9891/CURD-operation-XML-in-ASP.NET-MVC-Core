@@ -1,10 +1,11 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 
 namespace MVCDHProject.Models
 {
-    public class MVCCoreDbContext : DbContext
+    public class MVCCoreDbContext : IdentityDbContext
     {
         //passing connectionstring dynamically
         public MVCCoreDbContext(DbContextOptions options) : base(options)
@@ -14,6 +15,7 @@ namespace MVCDHProject.Models
         public DbSet<Customer> Customers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Customer>().HasData(
                 new Customer { Custid=101,Name="Sai",Balance=50000,City="Hyderabad",Status=true},
                 new Customer { Custid = 102, Name = "Sonia", Balance = 40000.00m, City = "Mumbai", Status = true },
