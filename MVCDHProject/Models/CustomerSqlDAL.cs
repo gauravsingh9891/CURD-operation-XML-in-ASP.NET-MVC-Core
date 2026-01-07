@@ -19,6 +19,8 @@ namespace MVCDHProject.Models
         {
             //var customer = context.Customers.Where(C => C.Custid == Custid).Single();
             var customer = context.Customers.Find(Custid);
+            if (customer == null)
+                throw new Exception("No customer exist's with given Custid.");
             return customer;
         }
         public void Customer_Insert(Customer customer)
