@@ -123,7 +123,7 @@ namespace MVCDHProject.Controllers
                         StringBuilder Errors = new StringBuilder();
                         foreach(var Error in result.Errors)
                         {
-                            Errors.Append(Error.Description + ". ");
+                            Errors.Append(Error.Description + "<br/>");
                         }
                         TempData["Title"] = "Confirmation Email Failure";
                         TempData["Message"] = Errors.ToString();
@@ -190,6 +190,74 @@ namespace MVCDHProject.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
+        }
+        #endregion
+
+        #region Forgot Passwored & Reset Password
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ChangePasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var User=await userManager.FindByNameAsync(model.Name);
+                if(User!=null&&await userManager.IsEmailConfirmedAsync(User))
+                {
+                    var token = await userManager.GeneratePasswordResetTokenAsync(User); 
+                    var confirmationUrlLink = Url.Action("ChangePassword", "Account", new { UserId = User.Id, Token = token },Request.Scheme);
+                    SendMail(User,confirmationUrlLink, "Change Password Link");
+                    TempData["Title"] = "Change Password Link";
+                    TempData["Message"] = "Change password link has been sent to your mail, click on it and change password.";
+                    return View("DisplayMessages");
+                }
+                else
+                {
+                    TempData["Title"] = "Change Password Mail Generation Failed.";
+                    TempData["Message"] = "Either the Username you have entered is in-valid or your email is not confirmed.";
+                    return View("DisplayMessages");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public ViewResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ResetPasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var User = await userManager.FindByIdAsync(model.Userid);
+                if(User!=null)
+                {
+                    var result = await userManager.ResetPasswordAsync(User, model.Token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        TempData["Title"] = "Reset Password Success";
+                        TempData["Message"] = "You password has been reset successfully";
+                        return View("DisplayMessages");
+                    }
+                    else
+                    {
+                        foreach (var Error in result.Errors)
+                            ModelState.AddModelError("", Error.Description);
+                    }
+                }
+                else
+                {
+                    TempData["Title"] = "Invalid User";
+                    TempData["Message"] = "No user exists with the given User Id";
+                    return View("DisplayMessages");
+                }
+            }
+            return View(model);
         }
         #endregion
     }

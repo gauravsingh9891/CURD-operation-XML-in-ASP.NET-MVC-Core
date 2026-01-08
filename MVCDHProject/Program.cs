@@ -25,7 +25,10 @@ namespace MVCDHProject
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<MVCCoreDbContext>().AddDefaultTokenProviders();
+
             var app = builder.Build();
+
+            //using session in application
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
