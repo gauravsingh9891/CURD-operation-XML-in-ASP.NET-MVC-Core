@@ -26,7 +26,16 @@ namespace MVCDHProject
                 options.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<MVCCoreDbContext>().AddDefaultTokenProviders();
 
-            
+            //Adding Google & Facebook open Authentication
+            builder.Services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "23563023368-qo6r35ajcmfi6s6n1fhhb16g78hp8sfr.apps.googleusercontent.com";
+                options.ClientSecret = "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";
+            }).AddFacebook(options =>
+            {
+                options.AppId = "1381626046281400";
+                options.AppSecret = "21c234a50891d21990fc2e98e1d944bf";
+            });
             var app = builder.Build();
 
             //using session in application
